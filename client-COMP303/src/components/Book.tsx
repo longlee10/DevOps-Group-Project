@@ -8,6 +8,9 @@ import {
 } from "@/components/ui/table";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
+import { BOOK_ENDPOINT } from "@/endpoints";
 
 interface Book {
   author: string;
@@ -23,21 +26,21 @@ const Book = () => {
   useEffect(() => {
     const fetchBook = async () => {
       await axios
-        .get<Book[]>("http://localhost:8084/book")
-        .then((res) => {
-          setBooks(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        .get<Book[]>(BOOK_ENDPOINT)
+        .then((res) => setBooks(res.data))
+        .catch((err) => console.log(err));
     };
     fetchBook();
   }, []);
 
   return (
     <>
-      <h1 className="text-2xl">List of Books</h1>
-      <Table className="w-1/2 m-auto">
+      <h1 className="text-2xl mb-3">List of Books</h1>
+      <Link to="/book/add">
+        <Button>Add Book</Button>
+      </Link>
+
+      <Table className="w-1/2 m-auto mt-3">
         <TableHeader>
           <TableRow>
             {tableHeads.map((head) => (
