@@ -9,10 +9,11 @@ import {
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
 import { BOOK_ENDPOINT } from "@/endpoints";
+import { Button } from "../ui/button";
 
 interface Book {
+  bookId: string;
   author: string;
   title: string;
   price: number;
@@ -20,7 +21,7 @@ interface Book {
 }
 
 const Book = () => {
-  const tableHeads = ["AUTHOR", "TITLE", "PRICE", "AVAILABLE"];
+  const tableHeads = ["AUTHOR", "TITLE", "PRICE", "AVAILABLE", "ACTION"];
   const [books, setBooks] = useState<Book[]>([]);
 
   useEffect(() => {
@@ -32,6 +33,13 @@ const Book = () => {
     };
     fetchBook();
   }, []);
+
+  const onDelete = async (id: string) => {
+    await axios
+      .delete(`${BOOK_ENDPOINT}/${id}`)
+      .then(() => setBooks(books.filter((book) => book.title !== id)))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
@@ -57,6 +65,14 @@ const Book = () => {
               <TableCell>{book.title}</TableCell>
               <TableCell>{`$${book.price}`}</TableCell>
               <TableCell>{book.available ? "Yes" : "No"}</TableCell>
+              <TableCell>
+                <Button
+                  className="bg-red-500 hover:bg-red-600"
+                  onClick={() => onDelete(book.bookId)}
+                >
+                  Delete
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
