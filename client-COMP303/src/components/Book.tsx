@@ -16,7 +16,7 @@ interface Book {
   author: string;
   title: string;
   price: number;
-  availability: boolean;
+  available: boolean;
 }
 
 const Book = () => {
@@ -56,7 +56,7 @@ const Book = () => {
               <TableCell>{book.author}</TableCell>
               <TableCell>{book.title}</TableCell>
               <TableCell>{`$${book.price}`}</TableCell>
-              <TableCell>{book.availability ? "Yes" : "No"}</TableCell>
+              <TableCell>{book.available ? "Yes" : "No"}</TableCell>
             </TableRow>
           ))}
         </TableBody>
