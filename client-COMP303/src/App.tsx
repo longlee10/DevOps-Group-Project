@@ -1,10 +1,10 @@
 import "./App.css";
-import { Button } from "./components/ui/button";
+import Book from "./components/Book";
 
 function App() {
   return (
     <>
-      <Button>Test Shadcn</Button>
+      <Book />
     </>
   );
 }
