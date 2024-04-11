@@ -70,7 +70,7 @@ const BookForm = () => {
               />
             </div>
           </div>
-          <Button className="mt-3">Deploy</Button>
+          <Button className="mt-3">Submit</Button>
         </form>
       </CardContent>
     </Card>

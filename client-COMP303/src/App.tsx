@@ -1,9 +1,9 @@
 import "./App.css";
-import Book from "./components/Book";
+import Book from "./components/books/Book";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import ErrorPage from "./components/ErrorPage";
-import BookForm from "./components/BookForm";
+import BookForm from "./components/books/BookForm";
 
 function App() {
   return (
