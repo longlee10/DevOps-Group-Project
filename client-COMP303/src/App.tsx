@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import ErrorPage from "./components/ErrorPage";
 import BookForm from "./components/books/BookForm";
 import Publisher from "./components/publisher/Publisher";
+import PublisherForm from "./components/publisher/PublisherForm";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/book" element={<Book />} />
         <Route path="/book/add" element={<BookForm />} />
         <Route path="/publisher" element={<Publisher />}/>
+        <Route path='/publisher/add' element={<PublisherForm />} />
         
       </Routes>
     </Router>
