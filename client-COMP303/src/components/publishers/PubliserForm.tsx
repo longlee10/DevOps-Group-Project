@@ -21,7 +21,7 @@ const PublisherForm = () => {
         pubName,
         address,
       })
-      .then(() => navigate("/publisher"))
+      .then(() => navigate("/publishers"))
       .catch((err) => console.log(err));
   };
 
