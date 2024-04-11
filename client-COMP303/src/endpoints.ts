@@ -1,3 +1,4 @@
 const BOOK_ENDPOINT = "http://localhost:8084/book";
 
-export { BOOK_ENDPOINT };
+const PUBLISHER_ENDPOINT = "http://localhost:8084/publisher";
+export { BOOK_ENDPOINT , PUBLISHER_ENDPOINT};
