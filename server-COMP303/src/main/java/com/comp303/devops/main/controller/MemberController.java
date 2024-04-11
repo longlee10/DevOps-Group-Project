@@ -1,6 +1,7 @@
 package com.comp303.devops.main.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +25,7 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@CrossOrigin
 	@GetMapping
 	public Flux<Member> getAll() {
 		System.out.println("All the employee information");
@@ -36,6 +38,7 @@ public class MemberController {
 		return memberService.getById(id);
 	}
 	
+	@CrossOrigin
 	@PostMapping
 	public Mono<Member> save(@RequestBody final Member member) {
 		return memberService.save(member);
@@ -46,6 +49,7 @@ public class MemberController {
 		return memberService.update(id, member);
 	}
 	
+	@CrossOrigin
 	@DeleteMapping("{id}")
 	public Mono<Member> delete(@PathVariable final String id) {
 		return memberService.delete(id);

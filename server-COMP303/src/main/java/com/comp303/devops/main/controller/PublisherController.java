@@ -1,6 +1,7 @@
 package com.comp303.devops.main.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +26,7 @@ public class PublisherController {
 	@Autowired
 	private PublisherService publisherService;
 	
+	@CrossOrigin
 	@GetMapping
 	public Flux<Publisher> getAll() {
 		System.out.println("All the employee information");
@@ -37,6 +39,7 @@ public class PublisherController {
 		return publisherService.getById(id);
 	}
 	
+	@CrossOrigin
 	@PostMapping
 	public Mono<Publisher> save(@RequestBody final Publisher publisher) {
 		return publisherService.save(publisher);
@@ -47,6 +50,7 @@ public class PublisherController {
 		return publisherService.update(id, publisher);
 	}
 	
+	@CrossOrigin
 	@DeleteMapping("{id}")
 	public Mono<Publisher> delete(@PathVariable final String id) {
 		return publisherService.delete(id);
