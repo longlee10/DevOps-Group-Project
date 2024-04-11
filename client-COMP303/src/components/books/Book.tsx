@@ -37,7 +37,7 @@ const Book = () => {
   const onDelete = async (id: string) => {
     await axios
       .delete(`${BOOK_ENDPOINT}/${id}`)
-      .then(() => setBooks(books.filter((book) => book.title !== id)))
+      .then(() => setBooks(books.filter((book) => book.bookId !== id)))
       .catch((err) => console.log(err));
   };
 
