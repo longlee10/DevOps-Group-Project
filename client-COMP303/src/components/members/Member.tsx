@@ -13,7 +13,7 @@ import { MEMBER_ENDPOINT } from "@/endpoints";
 import { Button } from "../ui/button";
 import NoData from "../NoData";
 
-interface Member {
+export interface Member {
   memberID: string;
   memberDate: string;
   memberType: string;
@@ -38,10 +38,7 @@ const Member = () => {
     const fetchBook = async () => {
       await axios
         .get<Member[]>(MEMBER_ENDPOINT)
-        .then((res) => {
-          setMembers(res.data);
-          console.log(res.data);
-        })
+        .then((res) => setMembers(res.data))
         .catch((err) => console.log(err));
     };
     fetchBook();
@@ -80,13 +77,16 @@ const Member = () => {
                 <TableCell>{m.memberDate}</TableCell>
 
                 <TableCell>{m.expiryDate}</TableCell>
-                <TableCell>
+                <TableCell className="flex gap-3">
                   <Button
                     className="bg-red-500 hover:bg-red-600"
                     onClick={() => onDelete(m.memberID)}
                   >
                     Delete
                   </Button>
+                  <Link to={`/member/${m.memberID}`}>
+                    <Button>Edit</Button>
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}

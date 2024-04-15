@@ -18,11 +18,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/book" element={<Book />} />
         <Route path="/book/add" element={<BookForm />} />
+        <Route path="/book/:id" element={<BookForm />} />
         <Route path="publisher" element={<Publisher />} />
         <Route path="publisher/add" element={<PublisherForm />} />
         <Route path="member" element={<Member />} />
         <Route path="member/add" element={<MemberForm />} />
-        <Route path="/book/:id" element={<BookForm />} />
+        <Route path="/member/:id" element={<MemberForm />} />
       </Routes>
     </Router>
   );
