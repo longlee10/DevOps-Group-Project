@@ -11,6 +11,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { MEMBER_ENDPOINT } from "@/endpoints";
 import { Button } from "../ui/button";
+import NoData from "../NoData";
 
 interface Member {
   memberID: string;
@@ -59,38 +60,41 @@ const Member = () => {
       <Link to="/member/add">
         <Button>Add Member</Button>
       </Link>
-
-      <Table className="w-1/2 m-auto mt-3">
-        <TableHeader>
-          <TableRow>
-            {tableHeads.map((head) => (
-              <TableHead className="text-center font-bold" key={head}>
-                {head}
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {members.map((m) => (
-            <TableRow key={m.name} className="text-lg">
-              <TableCell>{m.name}</TableCell>
-              <TableCell>{m.address}</TableCell>
-              <TableCell>{m.memberType}</TableCell>
-              <TableCell>{m.memberDate}</TableCell>
-
-              <TableCell>{m.expiryDate}</TableCell>
-              <TableCell>
-                <Button
-                  className="bg-red-500 hover:bg-red-600"
-                  onClick={() => onDelete(m.memberID)}
-                >
-                  Delete
-                </Button>
-              </TableCell>
+      {members.length > 0 ? (
+        <Table className="w-1/2 m-auto mt-3">
+          <TableHeader>
+            <TableRow>
+              {tableHeads.map((head) => (
+                <TableHead className="text-center font-bold" key={head}>
+                  {head}
+                </TableHead>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {members.map((m) => (
+              <TableRow key={m.name} className="text-lg">
+                <TableCell>{m.name}</TableCell>
+                <TableCell>{m.address}</TableCell>
+                <TableCell>{m.memberType}</TableCell>
+                <TableCell>{m.memberDate}</TableCell>
+
+                <TableCell>{m.expiryDate}</TableCell>
+                <TableCell>
+                  <Button
+                    className="bg-red-500 hover:bg-red-600"
+                    onClick={() => onDelete(m.memberID)}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <NoData data="member" />
+      )}
     </>
   );
 };
