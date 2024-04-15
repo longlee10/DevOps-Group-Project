@@ -13,7 +13,7 @@ import { BOOK_ENDPOINT } from "@/endpoints";
 import { Button } from "../ui/button";
 import NoData from "../NoData";
 
-interface Book {
+export interface Book {
   bookId: string;
   author: string;
   title: string;
@@ -66,7 +66,10 @@ const Book = () => {
                 <TableCell>{book.title}</TableCell>
                 <TableCell>{`$${book.price}`}</TableCell>
                 <TableCell>{book.available ? "Yes" : "No"}</TableCell>
-                <TableCell>
+                <TableCell className="flex gap-3">
+                  <Link to={`/book/${book.bookId}`}>
+                    <Button>Edit</Button>
+                  </Link>
                   <Button
                     className="bg-red-500 hover:bg-red-600"
                     onClick={() => onDelete(book.bookId)}

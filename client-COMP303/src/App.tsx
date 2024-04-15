@@ -22,9 +22,9 @@ function App() {
         <Route path="publisher/add" element={<PublisherForm />} />
         <Route path="member" element={<Member />} />
         <Route path="member/add" element={<MemberForm />} />
+        <Route path="/book/:id" element={<BookForm />} />
       </Routes>
     </Router>
-    
   );
 }
 
