@@ -2,10 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { MEMBER_ENDPOINT } from "@/endpoints";
+import { Member } from "./Member";
 
 const MemberForm = () => {
   const [memberDate, setMemberDate] = useState("");
@@ -13,20 +14,42 @@ const MemberForm = () => {
   const [address, setAddress] = useState("");
   const [name, setName] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
-
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      const fetchMember = async () => {
+        await axios
+          .get<Member>(`${MEMBER_ENDPOINT}/${id}`)
+          .then((res) => {
+            setMemberDate(res.data.memberDate);
+            setMemberType(res.data.memberType);
+            setAddress(res.data.address);
+            setName(res.data.name);
+            setExpiryDate(res.data.expiryDate);
+          })
+          .catch((err) => console.log(err));
+      };
+      fetchMember();
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await axios
-      .post(MEMBER_ENDPOINT, {
-        memberDate,
-        memberType,
-        address,
-        name,
-        expiryDate,
-      })
+    const data = {
+      memberDate,
+      memberType,
+      address,
+      name,
+      expiryDate,
+    };
+
+    await (id
+      ? axios.put(`${MEMBER_ENDPOINT}/${id}`, data)
+      : axios.post(MEMBER_ENDPOINT, data)
+    )
       .then(() => navigate("/member"))
       .catch((err) => console.log(err));
   };
@@ -45,6 +68,7 @@ const MemberForm = () => {
                 id="author"
                 placeholder="Enter member name"
                 onChange={(e) => setName(e.target.value)}
+                defaultValue={name}
               />
             </div>
             <div>
@@ -53,6 +77,7 @@ const MemberForm = () => {
                 id="title"
                 placeholder="Enter address"
                 onChange={(e) => setAddress(e.target.value)}
+                defaultValue={address}
               />
             </div>
             <div>
@@ -62,6 +87,7 @@ const MemberForm = () => {
                 type="text"
                 placeholder="Enter type"
                 onChange={(e) => setMemberType(e.target.value)}
+                defaultValue={memberType}
               />
             </div>
             <div>
@@ -70,6 +96,7 @@ const MemberForm = () => {
                 id="avaliable"
                 placeholder="Enter date"
                 onChange={(e) => setMemberDate(e.target.value)}
+                defaultValue={memberDate}
               />
             </div>
             <div>
@@ -78,6 +105,7 @@ const MemberForm = () => {
                 id="avaliable"
                 placeholder="Enter expiry date"
                 onChange={(e) => setExpiryDate(e.target.value)}
+                defaultValue={expiryDate}
               />
             </div>
           </div>

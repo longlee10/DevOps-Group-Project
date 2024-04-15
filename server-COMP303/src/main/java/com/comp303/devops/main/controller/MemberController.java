@@ -32,6 +32,7 @@ public class MemberController {
 		return memberService.getAll();
 	}
 	
+	@CrossOrigin
 	@GetMapping("{id}")
 	public Mono<Member> getById(@PathVariable("id") final String id) {
 		System.out.println("One employee information based for the given ID");
@@ -44,6 +45,7 @@ public class MemberController {
 		return memberService.save(member);
 	}
 	
+	@CrossOrigin
 	@PutMapping("{id}")
 	public Mono<Member> updateById(@PathVariable("id") final String id, @RequestBody final Member member) {
 		return memberService.update(id, member);
