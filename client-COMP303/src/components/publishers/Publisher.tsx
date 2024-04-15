@@ -11,6 +11,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { PUBLISHER_ENDPOINT } from "@/endpoints";
 import { Button } from "../ui/button";
+import NoData from "../NoData";
 
 interface Publisher {
   pubId: string;
@@ -44,34 +45,37 @@ const Publisher = () => {
       <Link to="/publisher/add">
         <Button>Add Publisher</Button>
       </Link>
-
-      <Table className="w-1/2 m-auto mt-3">
-        <TableHeader>
-          <TableRow>
-            {tableHeads.map((head) => (
-              <TableHead className="text-center font-bold" key={head}>
-                {head}
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {publishers.map((p) => (
-            <TableRow key={p.pubId} className="text-lg">
-              <TableCell>{p.pubName}</TableCell>
-              <TableCell>{p.address}</TableCell>
-              <TableCell>
-                <Button
-                  className="bg-red-500 hover:bg-red-600"
-                  onClick={() => onDelete(p.pubId)}
-                >
-                  Delete
-                </Button>
-              </TableCell>
+      {publishers.length > 0 ? (
+        <Table className="w-1/2 m-auto mt-3">
+          <TableHeader>
+            <TableRow>
+              {tableHeads.map((head) => (
+                <TableHead className="text-center font-bold" key={head}>
+                  {head}
+                </TableHead>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {publishers.map((p) => (
+              <TableRow key={p.pubId} className="text-lg">
+                <TableCell>{p.pubName}</TableCell>
+                <TableCell>{p.address}</TableCell>
+                <TableCell>
+                  <Button
+                    className="bg-red-500 hover:bg-red-600"
+                    onClick={() => onDelete(p.pubId)}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <NoData data="publisher" />
+      )}
     </>
   );
 };
