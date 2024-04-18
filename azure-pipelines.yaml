@@ -5,7 +5,7 @@ trigger:
       - master
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: Lab4.2
 
 stages:
   - stage: Build
@@ -17,7 +17,7 @@ stages:
           - task: Maven@3
             displayName: "Build Java Backend"
             inputs:
-              mavenPomFile: "backend/pom.xml" # Path to your Java backend Maven POM file
+              mavenPomFile: "server-COMP303/pom.xml" # Path to your Java backend Maven POM file
               goals: "clean package" # Maven goals to execute
               publishJUnitResults: false # We'll use SonarQube's test reporting instead of JUnit
             workingDirectory: "backend" # Directory where Maven commands will be executed
@@ -29,7 +29,7 @@ stages:
 
           - script: npm install
             displayName: "Install Frontend Dependencies"
-            workingDirectory: "frontend" # Path to your React TypeScript frontend directory
+            workingDirectory: "client-COMP303"
 
           - script: npm run build
             displayName: "Build Frontend"
