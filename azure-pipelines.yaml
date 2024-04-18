@@ -50,3 +50,42 @@ stages:
           - task: SonarQubePublish@4
             inputs:
               pollingTimeoutSec: "300"
+          stage: DeployDevEnv
+    displayName: "Deploy to Dev Environment"
+    jobs:
+      - job: DeployDevJob
+        displayName: "Deploy to Dev Job"
+        steps:
+          # Steps to deploy to Dev environment
+          # You can use Azure App Service Deployment task or any other suitable deployment method
+          # Example:
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: "<your_azure_subscription>"
+              appName: "<your_dev_app_name>"
+              package: "$(System.DefaultWorkingDirectory)/client-COMP303/build" # Path to your built frontend files
+              # Additional inputs for deployment configuration
+
+  - stage: DeployQATEnv
+    displayName: "Deploy to QAT Environment"
+    jobs:
+      - job: DeployQATJob
+        displayName: "Deploy to QAT Job"
+        steps:
+          
+
+  - stage: DeployStagingEnv
+    displayName: "Deploy to Staging Environment"
+    jobs:
+      - job: DeployStagingJob
+        displayName: "Deploy to Staging Job"
+        steps:
+         
+
+  - stage: DeployProdEnv
+    displayName: "Deploy to Production Environment"
+    jobs:
+      - job: DeployProdJob
+        displayName: "Deploy to Production Job"
+        steps:
+          
