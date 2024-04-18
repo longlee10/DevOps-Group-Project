@@ -1,0 +1,57 @@
+trigger:
+  branches:
+    include:
+      - main
+      - master
+
+pool:
+  vmImage: "ubuntu-latest"
+
+stages:
+  - stage: Build
+    displayName: "Build Stage"
+    jobs:
+      - job: BuildJob
+        displayName: "Build Job"
+        steps:
+          - task: Maven@3
+            displayName: "Build Java Backend"
+            inputs:
+              mavenPomFile: "backend/pom.xml" # Path to your Java backend Maven POM file
+              goals: "clean package" # Maven goals to execute
+              publishJUnitResults: false # We'll use SonarQube's test reporting instead of JUnit
+            workingDirectory: "backend" # Directory where Maven commands will be executed
+
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "12.x"
+            displayName: "Install Node.js"
+
+          - script: npm install
+            displayName: "Install Frontend Dependencies"
+            workingDirectory: "frontend" # Path to your React TypeScript frontend directory
+
+          - script: npm run build
+            displayName: "Build Frontend"
+            workingDirectory: "frontend"
+
+          - task: SonarQubePrepare@4
+            inputs:
+              SonarQube: "SonarQubeConnection" # The name of your SonarQube service connection
+              scannerMode: "CLI"
+              configMode: "manual"
+              cliProjectKey: "your_project_key" # The unique identifier for your project in SonarQube
+              cliSources: "backend/src" # Path to your Java backend source code files
+              cliTests: "backend/src/test" # Path to your Java backend test files
+
+          - task: SonarQubeAnalyze@4
+            displayName: "Run SonarQube Analysis"
+            inputs:
+              projectName: "your_project_name" # Name of your project in SonarQube
+              projectKey: "your_project_key" # Unique identifier for your project in SonarQube
+              extraProperties: |
+                # Additional properties for SonarQube analysis, if any
+
+          - task: SonarQubePublish@4
+            inputs:
+              pollingTimeoutSec: "300"
