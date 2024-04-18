@@ -32,7 +32,7 @@ stages:
           - script: |
               cd client-COMP303
               npm install
-              npm run build
+              npm run dev
             displayName: "Build Frontend"
             workingDirectory: "$(System.DefaultWorkingDirectory)" # Ensure correct working directory
 
