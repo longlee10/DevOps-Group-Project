@@ -14,41 +14,42 @@ stages:
       - job: BuildJob
         displayName: "Build Job"
         steps:
-          - task: Maven@3
+          - task: UseJavaVersion@1
+            inputs:
+              versionSpec: "11" # Use Java 11 or the version you need for your backend
+
+          - task: Gradle@2
             displayName: "Build Java Backend"
             inputs:
-              mavenPomFile: "server-COMP303/pom.xml" # Path to your Java backend Maven POM file
-              goals: "clean package" # Maven goals to execute
-              publishJUnitResults: false # We'll use SonarQube's test reporting instead of JUnit
-            workingDirectory: "backend" # Directory where Maven commands will be executed
+              workingDirectory: "server-COMP303" # Change to your backend directory
+              tasks: "build"
 
           - task: NodeTool@0
             inputs:
               versionSpec: "12.x"
             displayName: "Install Node.js"
 
-          - script: npm install
-            displayName: "Install Frontend Dependencies"
-            workingDirectory: "client-COMP303"
-
-          - script: npm run build
+          - script: |
+              cd client-COMP303
+              npm install
+              npm run build
             displayName: "Build Frontend"
-            workingDirectory: "frontend"
+            workingDirectory: "$(System.DefaultWorkingDirectory)" # Ensure correct working directory
 
           - task: SonarQubePrepare@4
             inputs:
-              SonarQube: "SonarQubeConnection" # The name of your SonarQube service connection
+              SonarQube: "SonarQubeConnection"
               scannerMode: "CLI"
               configMode: "manual"
-              cliProjectKey: "your_project_key" # The unique identifier for your project in SonarQube
-              cliSources: "backend/src" # Path to your Java backend source code files
-              cliTests: "backend/src/test" # Path to your Java backend test files
+              cliProjectKey: "your_project_key"
+              cliSources: "server-COMP303/src" # Update source path for backend
+              cliTests: "server-COMP303/src/test" # Update test path for backend
 
           - task: SonarQubeAnalyze@4
             displayName: "Run SonarQube Analysis"
             inputs:
-              projectName: "your_project_name" # Name of your project in SonarQube
-              projectKey: "your_project_key" # Unique identifier for your project in SonarQube
+              projectName: "your_project_name"
+              projectKey: "your_project_key"
               extraProperties: |
                 # Additional properties for SonarQube analysis, if any
 
